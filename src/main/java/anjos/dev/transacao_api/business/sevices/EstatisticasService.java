@@ -23,6 +23,10 @@ public class EstatisticasService {
 
         List<TransacaoRequestDTO> transacoes = transacaoService.buscarTransacoes(intervaloBusca);
 
+        if(transacoes.isEmpty()){// se nao houver transacoes, retorna um erro
+            return new EstatisticasResponseDTO(0L, 0.0, 0.0, 0.0, 0.0);
+        }
+
         DoubleSummaryStatistics estatisticasTransacoes = transacoes.stream().mapToDouble(TransacaoRequestDTO::valor).summaryStatistics();
 
         log.info("finalizada o processamento de estatisticas de transacoes");
