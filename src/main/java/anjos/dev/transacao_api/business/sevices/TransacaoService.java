@@ -1,6 +1,6 @@
 package anjos.dev.transacao_api.business.sevices;
 
-import anjos.dev.transacao_api.controller.dtos.TransacapRequestDTO;
+import anjos.dev.transacao_api.controller.dtos.TransacaoRequestDTO;
 import anjos.dev.transacao_api.infractructure.exceptions.unprocessableEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,10 +17,9 @@ import java.util.List;
 @Slf4j
 public class TransacaoService {
 
-    private static final Logger log = LoggerFactory.getLogger(TransacaoService.class);
-    private final List<TransacapRequestDTO> listaTrasacoes = new ArrayList<>();
+    private final List<TransacaoRequestDTO> listaTrasacoes = new ArrayList<>();
 
-    public void adicionarTransacoes(TransacapRequestDTO dto){
+    public void adicionarTransacoes(TransacaoRequestDTO dto){
 
         log.info("iniciada o processamento de gravar transaçoes");
 
@@ -37,5 +36,14 @@ public class TransacaoService {
     }
     public void limparTransacoes(){
         listaTrasacoes.clear();
+    }
+
+    public List<TransacaoRequestDTO> buscarTransacoes(Integer intervaloBusca){
+
+        OffsetDateTime dataHoraIntervalo = OffsetDateTime.now().minusSeconds(intervaloBusca);
+
+        return  listaTrasacoes.stream()
+                .filter(transacao -> transacao.dataHora()
+                        .isAfter(dataHoraIntervalo)).toList();
     }
 }

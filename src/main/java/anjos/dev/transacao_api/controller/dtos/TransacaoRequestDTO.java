@@ -2,6 +2,6 @@ package anjos.dev.transacao_api.controller.dtos;
 
 import java.time.OffsetDateTime;
 
-public record TransacapRequestDTO(Double valor, OffsetDateTime dataHora) {
+public record TransacaoRequestDTO(Double valor, OffsetDateTime dataHora) {
 
 }
