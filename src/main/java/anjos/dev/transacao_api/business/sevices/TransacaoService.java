@@ -4,8 +4,6 @@ import anjos.dev.transacao_api.controller.dtos.TransacaoRequestDTO;
 import anjos.dev.transacao_api.infractructure.exceptions.unprocessableEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -21,7 +19,7 @@ public class TransacaoService {
 
     public void adicionarTransacoes(TransacaoRequestDTO dto){
 
-        log.info("iniciada o processamento de gravar transaçoes");
+        log.info("iniciada o processamento de gravar transaçoes" + dto);
 
         if(dto.dataHora().isAfter(OffsetDateTime.now())){
             log.error("data e hora maiores que a data atual");
@@ -33,15 +31,20 @@ public class TransacaoService {
         }
 
         listaTrasacoes.add(dto);// armazenando transação em menoria no array list
+        log.info("finalizada o processamento de gravar transaçoes");
+
     }
     public void limparTransacoes(){
+        log.info("iniciada o processamento de limpar transacoes");
         listaTrasacoes.clear();
+        log.info("finalizada o processamento de limpar transacoes");
     }
 
     public List<TransacaoRequestDTO> buscarTransacoes(Integer intervaloBusca){
-
+        log.info("iniciada o processamento de buscar transacoes pelo periodo de tempo: {}", intervaloBusca);
         OffsetDateTime dataHoraIntervalo = OffsetDateTime.now().minusSeconds(intervaloBusca);
 
+        log.info("finalizada o processamento de buscar transacoes pelo periodo de tempo: {}", intervaloBusca);
         return  listaTrasacoes.stream()
                 .filter(transacao -> transacao.dataHora()
                         .isAfter(dataHoraIntervalo)).toList();
